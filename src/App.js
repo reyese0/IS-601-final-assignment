@@ -1,23 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from "react";
+import PokedexSelector from "./PokedexSelector";
+import PokemonSelector from "./PokemonSelector";
 
 function App() {
+  const [selectedPokedex, setSelectedPokedex] = useState('');
+  const [selectedPokemon, setSelectedPokemon] = useState('');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Select a pokedex:</h1>
+      <PokedexSelector setSelectedPokedex={setSelectedPokedex}/>
+      <PokemonSelector setSelectedPokemon={setSelectedPokemon}/>
     </div>
   );
 }
