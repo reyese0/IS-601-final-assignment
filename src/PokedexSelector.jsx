@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import PokemonSelector from "./PokemonSelector";
 
 const Pokedex = require("pokeapi-js-wrapper");
 const P = new Pokedex.Pokedex();
@@ -26,9 +27,9 @@ function PokedexSelector(props){
           {(true) ? pokedexList.map(listItem => (
             <div>
                 <h2 key={listItem.name}>{listItem.name}</h2>
-                <button onClick={() => props.setSelectedPokedex(listItem.name)}>View</button>
+                <button key={listItem.url} onClick={() => props.setSelectedPokedex(listItem.name)}>View</button>
             </div>
-          ) ) : null}
+          )) : null}
         </div>
       )
     } else {
