@@ -1,19 +1,21 @@
 import PokedexSelector from "./PokedexSelector";
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect} from "react";
+import PokemonDetails from "./PokemonDetails";
 
 const Pokedex = require("pokeapi-js-wrapper");
 const P = new Pokedex.Pokedex();
 
 function PokemonSelector(props) {
-  const { onSelection } = props;
+  const { pokedexChosen, back } = props;
     const [pokemonList, setPokemonList] = useState([]);
     const [hasError, setErrors] = useState(false);
-    const [pokedexSelected, setPokedexSelected] = useState(null);
+    const [pokemonSelected, setPokemonSelected] = useState(null);
+    const [pokedexSelected, setPokedexSelected] = useState("");
 
     useEffect(function() {
         fetchData()
         .catch(console.error);
-      }, []);
+      }, [P, setErrors]);
 
       async function fetchData() {
         P.resource("/api/v2/pokemon")
@@ -21,29 +23,31 @@ function PokemonSelector(props) {
             setPokemonList(response.results)
         })
     }
-    function choosePokedex(selection) {
-      setPokedexSelected(selection);
 
+    const goBack = () => {
+      setPokemonSelected("");
+  }
+  const pokedexBack = () => {
+    setPokedexSelected(null)
   }
     
     if(!hasError) {
 
-      if(!pokedexSelected) {
+      if(pokemonSelected == null && pokedexSelected) {
       return (
         <div>  
-          {(true) ? pokemonList.map(pokemon_species => (
+          {pokemonList.map(pokemon_species => (
             <div>
                 <h2 key={pokemon_species.name}>{pokemon_species.name}</h2>
                 <button onClick={() => props.setSelectedPokemon(pokemon_species.name)}>View Details</button>
+                <button onClick={() => pokedexBack()}>Back</button>
             </div>
-          )) : null}
+          ))}
         </div>
       )
     } else {
       return (
-        <div>  
-          <PokedexSelector onSelection={choosePokedex}/>
-        </div>
+          <PokemonDetails setErrors={setErrors} pokemonSelected={pokemonSelected} goBack={goBack} />
       )
     }
 

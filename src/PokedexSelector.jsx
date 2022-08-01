@@ -5,7 +5,6 @@ const Pokedex = require("pokeapi-js-wrapper");
 const P = new Pokedex.Pokedex();
 
 function PokedexSelector(props){
-    
     const [hasError, setErrors] = useState(false);
     const [pokedexList, setPokedexList] = useState([]);
     
@@ -24,12 +23,12 @@ function PokedexSelector(props){
     if(!hasError) {
       return (
         <div>  
-          {(true) ? pokedexList.map(listItem => (
+          {pokedexList.map(listItem => (
             <div>
                 <h2 key={listItem.name}>{listItem.name}</h2>
                 <button key={listItem.url} onClick={() => props.setSelectedPokedex(listItem.name)}>View</button>
             </div>
-          )) : null}
+          ))}
         </div>
       )
     } else {
